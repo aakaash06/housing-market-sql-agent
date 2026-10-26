@@ -1,0 +1,82 @@
+[
+  {
+    "id": "price_point",
+    "question": "What was the median sales price of new homes in the US in December 2024?",
+    "reference_sql": "SELECT median_price_usd FROM new_home_median_price WHERE month = DATE '2024-12-01'"
+  },
+  {
+    "id": "top_region_2024",
+    "question": "Which region (excluding the national total) had the highest average new-home sales rate in 2024?",
+    "reference_sql": "SELECT region FROM new_home_sales WHERE year(month) = 2024 AND region <> 'US' GROUP BY region ORDER BY avg(units_thousands_saar) DESC LIMIT 1"
+  },
+  {
+    "id": "avg_rate_2023",
+    "question": "What was the average 30-year fixed mortgage rate in 2023?",
+    "reference_sql": "SELECT avg(rate_30yr_fixed_pct) FROM mortgage_rates WHERE year(week) = 2023"
+  },
+  {
+    "id": "lowest_starts_month",
+    "question": "In which month were US housing starts at their lowest level in the data?",
+    "reference_sql": "SELECT month FROM housing_starts WHERE region = 'US' ORDER BY units_thousands_saar ASC LIMIT 1"
+  },
+  {
+    "id": "latest_supply",
+    "question": "What is the latest months' supply of new homes for sale?",
+    "reference_sql": "SELECT months_supply FROM new_home_months_supply ORDER BY month DESC LIMIT 1"
+  },
+  {
+    "id": "price_change_pct",
+    "question": "By what percentage did the US median new-home price change from January 2020 to January 2025?",
+    "reference_sql": "SELECT (b.median_price_usd - a.median_price_usd) * 100.0 / a.median_price_usd FROM new_home_median_price a, new_home_median_price b WHERE a.month = DATE '2020-01-01' AND b.month = DATE '2025-01-01'"
+  },
+  {
+    "id": "max_rate_2022",
+    "question": "What was the highest weekly 30-year mortgage rate in 2022?",
+    "reference_sql": "SELECT max(rate_30yr_fixed_pct) FROM mortgage_rates WHERE year(week) = 2022"
+  },
+  {
+    "id": "monthly_sales_2024",
+    "question": "Show US new-home sales for each month of 2024.",
+    "reference_sql": "SELECT month, units_thousands_saar FROM new_home_sales WHERE region = 'US' AND year(month) = 2024 ORDER BY month"
+  },
+  {
+    "id": "south_starts_2023",
+    "question": "What was the average housing starts rate in the South in 2023?",
+    "reference_sql": "SELECT avg(units_thousands_saar) FROM housing_starts WHERE region = 'South' AND year(month) = 2023"
+  },
+  {
+    "id": "peak_sales_year",
+    "question": "Which year had the highest average US new-home sales?",
+    "reference_sql": "SELECT year(month) FROM new_home_sales WHERE region = 'US' GROUP BY 1 ORDER BY avg(units_thousands_saar) DESC LIMIT 1"
+  },
+  {
+    "id": "rates_by_year",
+    "question": "What was the average 30-year mortgage rate in each year from 2019 to 2024?",
+    "reference_sql": "SELECT year(week) AS yr, avg(rate_30yr_fixed_pct) FROM mortgage_rates WHERE year(week) BETWEEN 2019 AND 2024 GROUP BY 1 ORDER BY 1"
+  },
+  {
+    "id": "south_share_2024",
+    "question": "What percentage of US new-home sales came from the South in 2024?",
+    "reference_sql": "SELECT sum(units_thousands_saar) FILTER (WHERE region = 'South') * 100.0 / sum(units_thousands_saar) FILTER (WHERE region = 'US') FROM new_home_sales WHERE year(month) = 2024"
+  },
+  {
+    "id": "high_supply_count",
+    "question": "How many months had more than 9 months' supply of new homes?",
+    "reference_sql": "SELECT count(*) FROM new_home_months_supply WHERE months_supply > 9"
+  },
+  {
+    "id": "starts_yoy_latest",
+    "question": "What is the year-over-year percent change in US housing starts for the latest month?",
+    "reference_sql": "WITH us AS (SELECT month, units_thousands_saar AS v FROM housing_starts WHERE region = 'US') SELECT (cur.v - prev.v) * 100.0 / prev.v FROM us cur JOIN us prev ON prev.month = cur.month - INTERVAL 1 YEAR WHERE cur.month = (SELECT max(month) FROM us)"
+  },
+  {
+    "id": "decline_city",
+    "question": "What is the median price of a new home in Glasgow?",
+    "expect_decline": true
+  },
+  {
+    "id": "decline_builder",
+    "question": "Which homebuilder sold the most homes in 2024?",
+    "expect_decline": true
+  }
+]

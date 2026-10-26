@@ -1,0 +1,442 @@
+{
+  "summary": {
+    "model": "claude-opus-5-5",
+    "accuracy": "16/16",
+    "accuracy_pct": 100.0,
+    "latency_p50_s": 3.25,
+    "latency_max_s": 6.25,
+    "total_cost_usd": 0.1116,
+    "retries_used": 0,
+    "failures": {}
+  },
+  "results": [
+    {
+      "id": "price_point",
+      "outcome": "pass",
+      "question": "What was the median sales price of new homes in the US in December 2024?",
+      "sql": "SELECT month, median_price_usd AS median_new_home_price_usd FROM new_home_median_price WHERE month = DATE '2024-12-01'",
+      "columns": [
+        "month",
+        "median_new_home_price_usd"
+      ],
+      "rows": [
+        [
+          "2024-12-01",
+          423000
+        ]
+      ],
+      "answer": "",
+      "declined": false,
+      "error": "",
+      "attempts": 1,
+      "latency_s": 4.51,
+      "input_tokens": 956,
+      "output_tokens": 99,
+      "cost_usd": 0.005804
+    },
+    {
+      "id": "top_region_2024",
+      "outcome": "pass",
+      "question": "Which region (excluding the national total) had the highest average new-home sales rate in 2024?",
+      "sql": "SELECT region, AVG(units_thousands_saar) AS avg_sales_thousands_saar FROM new_home_sales WHERE region <> 'US' AND month >= DATE '2024-01-01' AND month < DATE '2025-01-01' GROUP BY region ORDER BY avg_sales_thousands_saar DESC LIMIT 1",
+      "columns": [
+        "region",
+        "avg_sales_thousands_saar"
+      ],
+      "rows": [
+        [
+          "South",
+          412.75
+        ]
+      ],
+      "answer": "",
+      "declined": false,
+      "error": "",
+      "attempts": 1,
+      "latency_s": 3.15,
+      "input_tokens": 964,
+      "output_tokens": 181,
+      "cost_usd": 0.007476
+    },
+    {
+      "id": "avg_rate_2023",
+      "outcome": "pass",
+      "question": "What was the average 30-year fixed mortgage rate in 2023?",
+      "sql": "SELECT ROUND(AVG(rate_30yr_fixed_pct), 2) AS avg_30yr_fixed_rate_pct_2023 FROM mortgage_rates WHERE week >= DATE '2023-01-01' AND week < DATE '2024-01-01';",
+      "columns": [
+        "avg_30yr_fixed_rate_pct_2023"
+      ],
+      "rows": [
+        [
+          6.81
+        ]
+      ],
+      "answer": "",
+      "declined": false,
+      "error": "",
+      "attempts": 1,
+      "latency_s": 3.83,
+      "input_tokens": 958,
+      "output_tokens": 149,
+      "cost_usd": 0.006812
+    },
+    {
+      "id": "lowest_starts_month",
+      "outcome": "pass",
+      "question": "In which month were US housing starts at their lowest level in the data?",
+      "sql": "SELECT month, units_thousands_saar AS starts_thousands_saar FROM housing_starts WHERE region = 'US' ORDER BY units_thousands_saar ASC, month ASC LIMIT 1",
+      "columns": [
+        "month",
+        "starts_thousands_saar"
+      ],
+      "rows": [
+        [
+          "2009-04-01",
+          478
+        ]
+      ],
+      "answer": "",
+      "declined": false,
+      "error": "",
+      "attempts": 1,
+      "latency_s": 2.28,
+      "input_tokens": 955,
+      "output_tokens": 137,
+      "cost_usd": 0.00656
+    },
+    {
+      "id": "latest_supply",
+      "outcome": "pass",
+      "question": "What is the latest months' supply of new homes for sale?",
+      "sql": "SELECT month, months_supply FROM new_home_months_supply ORDER BY month DESC LIMIT 1",
+      "columns": [
+        "month",
+        "months_supply"
+      ],
+      "rows": [
+        [
+          "2026-08-01",
+          8.5
+        ]
+      ],
+      "answer": "",
+      "declined": false,
+      "error": "",
+      "attempts": 1,
+      "latency_s": 5.32,
+      "input_tokens": 953,
+      "output_tokens": 78,
+      "cost_usd": 0.005372
+    },
+    {
+      "id": "price_change_pct",
+      "outcome": "pass",
+      "question": "By what percentage did the US median new-home price change from January 2020 to January 2025?",
+      "sql": "SELECT a.median_price_usd AS price_jan_2020, b.median_price_usd AS price_jan_2025, ROUND((b.median_price_usd - a.median_price_usd) * 100.0 / a.median_price_usd, 2) AS pct_change FROM new_home_median_price a, new_home_median_price b WHERE a.month = DATE '2020-01-01' AND b.month = DATE '2025-01-01'",
+      "columns": [
+        "price_jan_2020",
+        "price_jan_2025",
+        "pct_change"
+      ],
+      "rows": [
+        [
+          328900,
+          429600,
+          30.62
+        ]
+      ],
+      "answer": "",
+      "declined": false,
+      "error": "",
+      "attempts": 1,
+      "latency_s": 2.8,
+      "input_tokens": 962,
+      "output_tokens": 196,
+      "cost_usd": 0.007768
+    },
+    {
+      "id": "max_rate_2022",
+      "outcome": "pass",
+      "question": "What was the highest weekly 30-year mortgage rate in 2022?",
+      "sql": "SELECT MAX(rate_30yr_fixed_pct) AS max_rate_30yr_fixed_pct FROM mortgage_rates WHERE week >= DATE '2022-01-01' AND week < DATE '2023-01-01'",
+      "columns": [
+        "max_rate_30yr_fixed_pct"
+      ],
+      "rows": [
+        [
+          7.08
+        ]
+      ],
+      "answer": "",
+      "declined": false,
+      "error": "",
+      "attempts": 1,
+      "latency_s": 2.71,
+      "input_tokens": 959,
+      "output_tokens": 135,
+      "cost_usd": 0.006536
+    },
+    {
+      "id": "monthly_sales_2024",
+      "outcome": "pass",
+      "question": "Show US new-home sales for each month of 2024.",
+      "sql": "SELECT month, units_thousands_saar AS us_new_home_sales_thousands_saar FROM new_home_sales WHERE region = 'US' AND month >= DATE '2024-01-01' AND month < DATE '2025-01-01' ORDER BY month",
+      "columns": [
+        "month",
+        "us_new_home_sales_thousands_saar"
+      ],
+      "rows": [
+        [
+          "2024-01-01",
+          683
+        ],
+        [
+          "2024-02-01",
+          653
+        ],
+        [
+          "2024-03-01",
+          681
+        ],
+        [
+          "2024-04-01",
+          706
+        ],
+        [
+          "2024-05-01",
+          670
+        ],
+        [
+          "2024-06-01",
+          683
+        ],
+        [
+          "2024-07-01",
+          732
+        ],
+        [
+          "2024-08-01",
+          687
+        ],
+        [
+          "2024-09-01",
+          715
+        ],
+        [
+          "2024-10-01",
+          632
+        ],
+        [
+          "2024-11-01",
+          669
+        ],
+        [
+          "2024-12-01",
+          702
+        ]
+      ],
+      "answer": "",
+      "declined": false,
+      "error": "",
+      "attempts": 1,
+      "latency_s": 2.54,
+      "input_tokens": 952,
+      "output_tokens": 146,
+      "cost_usd": 0.006728
+    },
+    {
+      "id": "south_starts_2023",
+      "outcome": "pass",
+      "question": "What was the average housing starts rate in the South in 2023?",
+      "sql": "SELECT AVG(units_thousands_saar) AS avg_starts_thousands_saar FROM housing_starts WHERE region = 'South' AND month >= DATE '2023-01-01' AND month < DATE '2024-01-01';",
+      "columns": [
+        "avg_starts_thousands_saar"
+      ],
+      "rows": [
+        [
+          792.6666666666666
+        ]
+      ],
+      "answer": "",
+      "declined": false,
+      "error": "",
+      "attempts": 1,
+      "latency_s": 3.78,
+      "input_tokens": 954,
+      "output_tokens": 147,
+      "cost_usd": 0.006756
+    },
+    {
+      "id": "peak_sales_year",
+      "outcome": "pass",
+      "question": "Which year had the highest average US new-home sales?",
+      "sql": "SELECT EXTRACT(YEAR FROM month) AS year, ROUND(AVG(units_thousands_saar), 1) AS avg_sales_thousands_saar FROM new_home_sales WHERE region = 'US' GROUP BY year ORDER BY avg_sales_thousands_saar DESC LIMIT 1",
+      "columns": [
+        "year",
+        "avg_sales_thousands_saar"
+      ],
+      "rows": [
+        [
+          2005,
+          1278.9
+        ]
+      ],
+      "answer": "",
+      "declined": false,
+      "error": "",
+      "attempts": 1,
+      "latency_s": 3.35,
+      "input_tokens": 951,
+      "output_tokens": 240,
+      "cost_usd": 0.008604
+    },
+    {
+      "id": "rates_by_year",
+      "outcome": "pass",
+      "question": "What was the average 30-year mortgage rate in each year from 2019 to 2024?",
+      "sql": "SELECT EXTRACT(year FROM week) AS year, ROUND(AVG(rate_30yr_fixed_pct), 2) AS avg_30yr_rate_pct FROM mortgage_rates WHERE week >= DATE '2019-01-01' AND week < DATE '2025-01-01' GROUP BY 1 ORDER BY 1",
+      "columns": [
+        "year",
+        "avg_30yr_rate_pct"
+      ],
+      "rows": [
+        [
+          2019,
+          3.94
+        ],
+        [
+          2020,
+          3.11
+        ],
+        [
+          2021,
+          2.96
+        ],
+        [
+          2022,
+          5.34
+        ],
+        [
+          2023,
+          6.81
+        ],
+        [
+          2024,
+          6.72
+        ]
+      ],
+      "answer": "",
+      "declined": false,
+      "error": "",
+      "attempts": 1,
+      "latency_s": 2.88,
+      "input_tokens": 963,
+      "output_tokens": 174,
+      "cost_usd": 0.007332
+    },
+    {
+      "id": "south_share_2024",
+      "outcome": "pass",
+      "question": "What percentage of US new-home sales came from the South in 2024?",
+      "sql": "SELECT ROUND(100.0 * SUM(CASE WHEN region = 'South' THEN units_thousands_saar END) / SUM(CASE WHEN region = 'US' THEN units_thousands_saar END), 1) AS south_share_pct FROM new_home_sales WHERE month >= DATE '2024-01-01' AND month < DATE '2025-01-01' AND region IN ('South', 'US')",
+      "columns": [
+        "south_share_pct"
+      ],
+      "rows": [
+        [
+          60.3
+        ]
+      ],
+      "answer": "",
+      "declined": false,
+      "error": "",
+      "attempts": 1,
+      "latency_s": 4.57,
+      "input_tokens": 956,
+      "output_tokens": 300,
+      "cost_usd": 0.009824
+    },
+    {
+      "id": "high_supply_count",
+      "outcome": "pass",
+      "question": "How many months had more than 9 months' supply of new homes?",
+      "sql": "SELECT COUNT(*) AS months_above_9_months_supply FROM new_home_months_supply WHERE months_supply > 9",
+      "columns": [
+        "months_above_9_months_supply"
+      ],
+      "rows": [
+        [
+          35
+        ]
+      ],
+      "answer": "",
+      "declined": false,
+      "error": "",
+      "attempts": 1,
+      "latency_s": 2.54,
+      "input_tokens": 954,
+      "output_tokens": 95,
+      "cost_usd": 0.005716
+    },
+    {
+      "id": "starts_yoy_latest",
+      "outcome": "pass",
+      "question": "What is the year-over-year percent change in US housing starts for the latest month?",
+      "sql": "WITH latest AS (SELECT MAX(month) AS m FROM housing_starts WHERE region = 'US') SELECT cur.month AS latest_month, cur.units_thousands_saar AS starts_latest_thousands_saar, prev.units_thousands_saar AS starts_year_ago_thousands_saar, ROUND(100.0 * (cur.units_thousands_saar - prev.units_thousands_saar) / prev.units_thousands_saar, 2) AS yoy_pct_change FROM latest JOIN housing_starts cur ON cur.month = latest.m AND cur.region = 'US' LEFT JOIN housing_starts prev ON prev.month = latest.m - INTERVAL 12 MONTH AND prev.region = 'US'",
+      "columns": [
+        "latest_month",
+        "starts_latest_thousands_saar",
+        "starts_year_ago_thousands_saar",
+        "yoy_pct_change"
+      ],
+      "rows": [
+        [
+          "2026-09-01",
+          1221,
+          1319,
+          -7.43
+        ]
+      ],
+      "answer": "",
+      "declined": false,
+      "error": "",
+      "attempts": 1,
+      "latency_s": 6.25,
+      "input_tokens": 959,
+      "output_tokens": 309,
+      "cost_usd": 0.010016
+    },
+    {
+      "id": "decline_city",
+      "outcome": "pass",
+      "question": "What is the median price of a new home in Glasgow?",
+      "sql": "",
+      "columns": [],
+      "rows": [],
+      "answer": "The database only covers US national new home median prices, so it has no data for Glasgow (a UK city) or for any individual city.",
+      "declined": true,
+      "error": "",
+      "attempts": 1,
+      "latency_s": 5.15,
+      "input_tokens": 952,
+      "output_tokens": 58,
+      "cost_usd": 0.004968
+    },
+    {
+      "id": "decline_builder",
+      "outcome": "pass",
+      "question": "Which homebuilder sold the most homes in 2024?",
+      "sql": "",
+      "columns": [],
+      "rows": [],
+      "answer": "The schema only contains aggregate national and regional new home sales, with no breakdown by homebuilder, so it cannot identify which builder sold the most homes in 2024.",
+      "declined": true,
+      "error": "",
+      "attempts": 1,
+      "latency_s": 2.56,
+      "input_tokens": 954,
+      "output_tokens": 74,
+      "cost_usd": 0.005296
+    }
+  ]
+}
